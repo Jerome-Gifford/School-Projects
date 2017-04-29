@@ -1,0 +1,9 @@
+====================================================
+				Homework 03
+====================================================
+
+Write a program that plays the popular game rock-paper-scissors. 
+The program randomaly generates a a number (0, 1, 2) representing 
+rock, paper, and scissors respectively. The program prompts the user
+to enter a number (0, 1, 2) and displays a message indicating whether 
+the user or the computer has won, lost, or drawn. 

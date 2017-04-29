@@ -1,0 +1,1 @@
+The repo contains backups of all college programming assignments that have been stored on SVSU's CSIS server

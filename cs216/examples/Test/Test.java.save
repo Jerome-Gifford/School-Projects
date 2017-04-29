@@ -1,0 +1,21 @@
+ppublic class Test{
+    public static void main(String[] args){
+    xMethod(5);
+
+    }
+}
+
+ublic class Test{
+    public static void main(String[] args){
+    xMethod(5);
+
+    }
+}
+
+
+public class Test{	
+	public static void main(String[] args){
+	xMethod(5);
+		
+	}
+}

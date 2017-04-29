@@ -1,0 +1,119 @@
+import java.util.*;
+import  java.io.*;
+
+public class Pilot extends AirlineEmployee{
+	private double salary;
+	private double level;
+	private String rank;
+	private double deductionP;
+	private double netPay;
+	private final String rank1 = "Captain";
+	private final String rank2 = "1st Officer";
+	private final double deductionP1 = 0.30;
+	private final double deductionP2 = 0.27;
+	
+	public Pilot(){
+		super();
+		level = 0;
+		salary = 0;
+		rank = "";
+		deductionP = 0.0;
+		netPay = 0.0;
+	}
+	
+	public Pilot(int inId, String inName, String inType, String inSex, int inDate, int inLevel, double inSalary){
+		super(inId,inName,inType,inSex,inDate);
+		level = inLevel;
+		salary = inSalary;
+		
+		calculateData();
+		
+	}
+	
+	public void calculateData(){
+		//determine rank ,deduction, & netPay
+		if (level == 1){ 
+			rank = rank1;
+			deductionP = deductionP1;
+		}
+		else{
+			rank = rank2;
+			deductionP = deductionP2;
+		}
+		
+		netPay = (salary/25) * (1 - deductionP);
+	}
+	
+	public void setId(int inId){
+		super.setId(inId);
+	}
+	
+	public void setName (String inName){
+		super.setName(inName);
+	}
+	
+	public void setEmployeeType (String inType){
+		super.setEmployeeType(inType);
+	}
+	
+	public void setSex(String inSex){
+		super.setSex(inSex);
+	}
+	
+	public void setDate(int inDate){
+		super.setDate(inDate);
+	}
+	
+	public int getId(){
+		return super.getId();
+	}
+	
+	public String getName(){
+		return super.getName();
+	}
+	
+	public String getEmployeeType(){
+		return super.getEmployeeType();
+	}
+	
+	public String getSex(){
+		return super.getSex();
+	}
+	
+	public int getDate(){
+		return super.getDate();
+	}
+	
+	public void setSalary(double inSalary){
+		salary = inSalary;
+	}
+
+	
+	public double getSalary(){
+		return salary;
+	}
+	
+	public String getRank(){
+		calculateData();
+		return rank;
+	}
+	
+	public void setLevel(double inLevel){
+		level = inLevel;
+	}
+	
+	public double getDeduction(){
+		calculateData();
+		return deductionP;
+	}
+	public double getNetPay(){
+		calculateData();
+		return netPay;
+	}
+	public void printEmpRd(){
+		calculateData();
+		System.out.printf("%20s %10f %10f", rank, deductionP, netPay);
+	}
+	
+	
+}

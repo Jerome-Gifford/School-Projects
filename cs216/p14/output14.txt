@@ -1,0 +1,5 @@
+true
+Jean
+1
+4
+[Tom, George, Peter, Jean, Michael, Jane]

@@ -1,0 +1,527 @@
+================================================================================
+=                     Print Date: Sun Nov 20 17:13:45 2016                     =
+================================================================================
+
+
+================================================================================
+=                                 Source Files                                 =
+================================================================================
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: Circle.java                               ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+import java.io.*;
+import java.util.*;
+
+class Circle {
+	// ~~~~~ 3PIO Comments for Circle ~~~~~//
+		//Purpose: create a circle obj with Area, Radius, Perimeter, and Diameter
+		//Input: Various, depending upon method called
+		//Pre Condition: the code compiles
+		//Output: Various, depending upon method called
+		//Post Condition: The circle and fields are created and calculated
+		//Note: n/a
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+	
+	private int id;
+	private double radius;
+	
+	public Circle(){
+		id = 0; 
+		radius = 0;
+	}
+	
+	public Circle(int inId, double inRadius){
+		id = inId;
+		radius = inRadius;
+	}
+	
+	public void getDataFromFile(Scanner inFile){
+		id = inFile.nextInt();
+		radius = inFile.nextDouble();
+	}
+	
+	public void printCircle(){
+		System.out.printf("%-9d %-6.2f %-9.2f  %-5.2f\n", this.getId(), this.getRadius(), this.getPerimeter(), this.getArea());
+	}
+	
+	public double getRadius(){
+		return radius;
+	}
+	
+	public int getId(){
+		return id;
+	}
+	
+	public void setRadius(double inRadius){
+		radius = inRadius;
+	}
+	
+	public void setId (int inId){
+		id = inId;
+	}
+	
+	public double getArea(){
+		return Math.PI * Math.pow(radius, 2); 
+	}
+	
+	public double getDiameter(){
+		return 2 * radius;
+	}
+	
+	public double getPerimeter(){
+		return 2 * Math.PI * radius;
+	}
+	
+	public String toString(){
+		return  String.valueOf(this.getId()) + String.valueOf(this.getRadius()) + String.valueOf(this.getPerimeter()) + String.valueOf(this.getArea());
+	}
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: IdComp.java                               ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+import java.io.*;
+import java.util.*;
+
+class IdComp implements Comparator<Circle>{
+	// ~~~~~ 3PIO Comments for Client side code ~~~~~//
+		//Purpose: provide comparison for Circle IDs
+		//Input: Circle
+		//Pre Condition: Circle exists
+		//Output: 1, -1
+		//Post Condition: Order is determined
+		//Note: n/a
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    public int compare(Circle c1, Circle c2) {
+        if(c1.getId() > c2.getId()){
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                            File: RadiusComp.java                             ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+import java.io.*;
+import java.util.*;
+
+class RadiusComp implements Comparator<Circle>{
+ // ~~~~~ 3PIO Comments for Client side code ~~~~~//
+		//Purpose: provide comparison for Circle Radi
+		//Input: Circle
+		//Pre Condition: Circle exists
+		//Output: 1, -1
+		//Post Condition: Order is determined
+		//Note: n/a
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+    public int compare(Circle c1, Circle c2) {
+        if(c1.getRadius() > c2.getRadius()){
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                                File: p12.java                                ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// p12.java 
+//*********************************************************************************************
+// YOUR NAME: Jerome Gifford
+//
+// COURSE TITLE: Computer Programming II
+//
+// COURSE NUMBER: CS216
+//
+// PROF NAME: Moe Bidgoli
+//
+// ASSIGNMENT NUMBER: #12
+//
+// DUE DATE:
+//
+// POSSIBLE POINTS: 10 Points
+//
+//PURPOSE: Create a LinkedList for Circles and pirnt out. Sort teh LinkedList by ID and Radius and divied into 2 speerate LinkedList
+// based on those Circles with radius less than 2 and those 2 or greater.
+//*********************************************************************************************
+
+import java.io.*;
+import java.util.*;
+
+public class p12 {
+	
+    public static void main(String[] args) {
+			Scanner inFile = new Scanner(System.in);
+			
+			LinkedList<Circle> list = new LinkedList<Circle>();
+			
+			//load Circles into Linked List
+			while (inFile.hasNext()){
+				Circle cr = new Circle();
+				cr.getDataFromFile(inFile);
+				list.add(cr);
+			}
+
+			System.out.println("~~~ Java Linked List Report ~~~");
+			printList(list);
+			
+			//Print List Sorted by ID & Radius
+			Collections.sort(list, new IdComp());
+			System.out.println("\n~< Linked ListA Sort By Id >~");
+			printList(list);
+			Collections.sort(list, new RadiusComp());
+			System.out.println("\n~< Linked ListA Sort By Radius >~");
+			printList(list);
+			
+			LinkedList<Circle> list2 = new LinkedList<Circle>();
+			LinkedList<Circle> list3 = new LinkedList<Circle>();
+			
+			// Divide List to List2 & List3 by Radius size
+			for(Circle cr : list){
+				if (cr.getRadius() < 2){
+					list2.add(cr);
+				}
+				else{
+					list3.add(cr);
+				}
+			}
+			
+			//Print List2 & List3
+			System.out.println("\n~< Linked ListB >~");
+			printList(list2);
+			System.out.println("\n~< Linked ListC >~");
+			printList(list3);
+			
+			//Print List2 & List3 sorted by Id
+			Collections.sort(list2, new IdComp());
+			System.out.println("\n~< Linked ListB Sort By Id >~");
+			printList(list2);
+			Collections.sort(list3, new IdComp());
+			System.out.println("\n~< Linked ListC Sort By Id >~");
+			printList(list3);
+			System.out.println("~<<< end >>>~");
+			
+			
+			
+	} //end of main
+	
+	public static void printList(LinkedList<Circle> list){
+		if (list.size() > 0){
+			printHeader();
+			for(Circle cr : list){
+					cr.printCircle();
+			}
+		}
+		else{
+			System.out.println("No Elements in List");
+		}
+	}
+	
+	public static void printHeader(){
+		System.out.printf("%9s %6s %9s %5s\n", "Circle ID", "Radius", "Perimeter", "Area");
+		System.out.printf("%9s %6s %9s %5s\n", "---------", "------", "---------", "----");
+	}
+	
+}
+
+================================================================================
+=                                  Data Files                                  =
+================================================================================
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: p12216f1.f16                              ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+111 1.9
+873 1.1
+999 3.4
+765 1.5
+231 2.0
+577 2.9
+733 3.6
+
+--------------------------------------------------------------------------------
+-                                  Execution                                   -
+--------------------------------------------------------------------------------
+
+~~~ Java Linked List Report ~~~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+873       1.10   6.91       3.80 
+999       3.40   21.36      36.32
+765       1.50   9.42       7.07 
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+733       3.60   22.62      40.72
+
+~< Linked ListA Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+733       3.60   22.62      40.72
+765       1.50   9.42       7.07 
+873       1.10   6.91       3.80 
+999       3.40   21.36      36.32
+
+~< Linked ListA Sort By Radius >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+873       1.10   6.91       3.80 
+765       1.50   9.42       7.07 
+111       1.90   11.94      11.34
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+999       3.40   21.36      36.32
+733       3.60   22.62      40.72
+
+~< Linked ListB >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+873       1.10   6.91       3.80 
+765       1.50   9.42       7.07 
+111       1.90   11.94      11.34
+
+~< Linked ListC >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+999       3.40   21.36      36.32
+733       3.60   22.62      40.72
+
+~< Linked ListB Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+765       1.50   9.42       7.07 
+873       1.10   6.91       3.80 
+
+~< Linked ListC Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+733       3.60   22.62      40.72
+999       3.40   21.36      36.32
+~<<< end >>>~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: p12216f2.f16                              ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+111 1.9
+873 1.1
+765 1.5
+
+--------------------------------------------------------------------------------
+-                                  Execution                                   -
+--------------------------------------------------------------------------------
+
+~~~ Java Linked List Report ~~~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+873       1.10   6.91       3.80 
+765       1.50   9.42       7.07 
+
+~< Linked ListA Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+765       1.50   9.42       7.07 
+873       1.10   6.91       3.80 
+
+~< Linked ListA Sort By Radius >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+873       1.10   6.91       3.80 
+765       1.50   9.42       7.07 
+111       1.90   11.94      11.34
+
+~< Linked ListB >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+873       1.10   6.91       3.80 
+765       1.50   9.42       7.07 
+111       1.90   11.94      11.34
+
+~< Linked ListC >~
+No Elements in List
+
+~< Linked ListB Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+765       1.50   9.42       7.07 
+873       1.10   6.91       3.80 
+
+~< Linked ListC Sort By Id >~
+No Elements in List
+~<<< end >>>~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: p12216f3.f16                              ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+999 3.4
+231 2.0
+577 2.9
+733 3.6
+
+--------------------------------------------------------------------------------
+-                                  Execution                                   -
+--------------------------------------------------------------------------------
+
+~~~ Java Linked List Report ~~~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+999       3.40   21.36      36.32
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+733       3.60   22.62      40.72
+
+~< Linked ListA Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+733       3.60   22.62      40.72
+999       3.40   21.36      36.32
+
+~< Linked ListA Sort By Radius >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+999       3.40   21.36      36.32
+733       3.60   22.62      40.72
+
+~< Linked ListB >~
+No Elements in List
+
+~< Linked ListC >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+999       3.40   21.36      36.32
+733       3.60   22.62      40.72
+
+~< Linked ListB Sort By Id >~
+No Elements in List
+
+~< Linked ListC Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+231       2.00   12.57      12.57
+577       2.90   18.22      26.42
+733       3.60   22.62      40.72
+999       3.40   21.36      36.32
+~<<< end >>>~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: p12216f4.f16                              ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+111 1.9
+733 3.6
+
+--------------------------------------------------------------------------------
+-                                  Execution                                   -
+--------------------------------------------------------------------------------
+
+~~~ Java Linked List Report ~~~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+733       3.60   22.62      40.72
+
+~< Linked ListA Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+733       3.60   22.62      40.72
+
+~< Linked ListA Sort By Radius >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+733       3.60   22.62      40.72
+
+~< Linked ListB >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+
+~< Linked ListC >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+733       3.60   22.62      40.72
+
+~< Linked ListB Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+111       1.90   11.94      11.34
+
+~< Linked ListC Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+733       3.60   22.62      40.72
+~<<< end >>>~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~                              File: p12216f5.f16                              ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+555 3.6
+
+--------------------------------------------------------------------------------
+-                                  Execution                                   -
+--------------------------------------------------------------------------------
+
+~~~ Java Linked List Report ~~~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+555       3.60   22.62      40.72
+
+~< Linked ListA Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+555       3.60   22.62      40.72
+
+~< Linked ListA Sort By Radius >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+555       3.60   22.62      40.72
+
+~< Linked ListB >~
+No Elements in List
+
+~< Linked ListC >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+555       3.60   22.62      40.72
+
+~< Linked ListB Sort By Id >~
+No Elements in List
+
+~< Linked ListC Sort By Id >~
+Circle ID Radius Perimeter  Area
+--------- ------ ---------  ----
+555       3.60   22.62      40.72
+~<<< end >>>~
+
+
